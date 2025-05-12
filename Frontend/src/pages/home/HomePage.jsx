@@ -1,60 +1,54 @@
-"use client"
-
-import Header from "@/components/custom/Header"
-import { useEffect } from "react"
-import heroSnapshot from "@/assets/heroSnapshot.png"
-import { useNavigate } from "react-router-dom"
-import { FaCircle, FaInfoCircle } from "react-icons/fa"
-import { startUser } from "../../Services/login.js"
-import { useDispatch, useSelector } from "react-redux"
-import { addUserData } from "@/features/user/userFeatures.js"
+import Header from "@/components/custom/Header";
+import React, { useEffect } from "react";
+import heroSnapshot from "@/assets/heroSnapshot.png";
+import { useNavigate } from "react-router-dom";
+import { FaGithub, FaCircle, FaInfoCircle } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { startUser } from "../../Services/login.js";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserData } from "@/features/user/userFeatures.js";
 
 function HomePage() {
-  const user = useSelector((state) => state.editUser.userData)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const user = useSelector((state) => state.editUser.userData);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleClick = () => {
-    window.open("https://portfolio-usman-khurshids-projects.vercel.app/", "_blank")
-  }
+    window.open("thesaadamir.vercel.app", "_blank");
+    
+  };
 
   useEffect(() => {
     const fetchResponse = async () => {
       try {
-        const response = await startUser()
+        const response = await startUser();
         if (response.statusCode == 200) {
-          dispatch(addUserData(response.data))
+          dispatch(addUserData(response.data));
         } else {
-          dispatch(addUserData(""))
+          dispatch(addUserData(""));
         }
       } catch (error) {
-        console.log("Printing from Home Page there was a error ->", error.message)
-        dispatch(addUserData(""))
+        console.log(
+          "Printing from Home Page there was a error ->",
+          error.message
+        );
+        dispatch(addUserData(""));
       }
-    }
-    fetchResponse()
-  }, [])
+    };
+    fetchResponse();
+  }, []);
 
   const hadnleGetStartedClick = () => {
     if (user) {
-      console.log("Printing from Homepage User is There ")
-      navigate("/dashboard")
+      console.log("Printing from Homepage User is There ");
+      navigate("/dashboard");
     } else {
-      console.log("Printing for Homepage User Not Found")
-      navigate("/auth/sign-in")
+      console.log("Printing for Homepage User Not Found");
+      navigate("/auth/sign-in");
     }
-  }
+  };
   return (
     <>
       <Header user={user} />
-
-      {/* VitaForge Title with Animation */}
-      <div className="title-container">
-        <h1 className="vitaforge-title">
-          <span className="vita">Vita</span>
-          <span className="forge">Forge</span>
-        </h1>
-      </div>
-
       <section className="pt-24 pb-20 bg-white">
         <div className="px-12 mx-auto max-w-7xl">
           <div className="w-full mx-auto text-left md:w-11/12 xl:w-9/12 md:text-center">
@@ -122,7 +116,7 @@ function HomePage() {
                 </div>
                 <img
                   className="object-cover py-2 px-4 rounded-b-lg transition duration-300 transform hover:scale-105"
-                  src={heroSnapshot || "/placeholder.svg"}
+                  src={heroSnapshot}
                   alt="Dashboard"
                 />
               </div>
@@ -132,94 +126,14 @@ function HomePage() {
       </section>
       <footer className="bg-white" aria-labelledby="footer-heading">
         <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 p-5 flex justify-between">
-          <p className="text-xs leading-5 text-gray-500">&copy; Team VitaForge 2023. All rights reserved.</p>
+          <p className="text-xs leading-5 text-gray-500">
+            &copy; 2024 Ai-Resume-Builder. All rights reserved.
+          </p>
+
         </div>
       </footer>
-
-      {/* Add styles directly in the component */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        .title-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 20px 0;
-          margin-top: 20px;
-          margin-bottom: -20px;
-          position: relative;
-          z-index: 10;
-        }
-        
-        .vitaforge-title {
-          font-size: 64px;
-          font-weight: 800;
-          letter-spacing: -1px;
-          text-align: center;
-          position: relative;
-          margin: 0;
-          padding: 0;
-          display: inline-block;
-        }
-        
-        .vita {
-          background: linear-gradient(90deg, #4ade80 0%, #8b5cf6 50%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          display: inline-block;
-          animation: slideInLeft 1s ease forwards;
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        
-        .forge {
-          background: linear-gradient(90deg, #8b5cf6 50%, #a855f7 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          display: inline-block;
-          animation: slideInRight 1s ease forwards;
-          opacity: 0;
-          transform: translateX(30px);
-        }
-        
-        .vitaforge-title::after {
-          content: '';
-          position: absolute;
-          bottom: -10px;
-          left: 0;
-          width: 0;
-          height: 6px;
-          background: linear-gradient(90deg, #4ade80 0%, #a855f7 100%);
-          border-radius: 3px;
-          animation: expandLine 1s ease forwards 0.8s;
-        }
-        
-        @keyframes slideInLeft {
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        @keyframes slideInRight {
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        @keyframes expandLine {
-          to {
-            width: 100%;
-          }
-        }
-      `,
-        }}
-      />
     </>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;
